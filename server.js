@@ -6,6 +6,12 @@ const morgan = require('morgan');
 const app = express();
 const PORT = process.env.PORT || 2000;
 
+//Middlewares 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(bodyParser.json({ type: 'application/json' }));
+app.use(morgan('dev'));
+
 app.get('/', (req, res) => {
     res.send('Server up & running ✅');
   })
