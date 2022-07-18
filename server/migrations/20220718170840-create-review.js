@@ -23,7 +23,7 @@ module.exports = {
       unhelpful_votes: {
         type: Sequelize.INTEGER
       },
-      time_if_purchase: {
+      time_of_purchase: {
         type: Sequelize.DATE
       },
       user_id: {

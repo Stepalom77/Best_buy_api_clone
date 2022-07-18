@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     helpful_votes: DataTypes.INTEGER,
     unhelpful_votes: DataTypes.INTEGER,
-    time_if_purchase: DataTypes.DATE,
+    time_of_purchase: DataTypes.DATE,
     user_id: { 
       type:DataTypes.INTEGER,
       references: {
