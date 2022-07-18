@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express');
-const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const cors = require('cors')
 
 const app = express();
 const PORT = process.env.PORT || 2000;
@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 2000;
 //Middlewares 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(bodyParser.json({ type: 'application/json' }));
 app.use(morgan('dev'));
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send('Server up & running ✅');

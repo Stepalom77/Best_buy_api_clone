@@ -1,10 +1,37 @@
-version: "3.7"
+version: "3.8"
 
 services:
 
 #docker run -dp 3000:3000 --network todo-app -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_PASSWORD=secret -e MYSQL_DB=todos getting-started:v2
 
   api:
-    image: stepalom/imdb_clone
+    container_name: best_buy_api_clone
+    image: stepalom/best_buy_api_clone:0.0.1
+    build:
+      context: .
     ports:
       - 2000:2000
+    environment:
+      - PORT=2000
+      - SQLDATABASE=best_buy_db
+      - SQLUSER=stepa
+      - SQLPASSWORD=d[6[%dL_sJh9/{lG%P@V(3+oaq+1kF
+      - SQLHOST=node_db
+    depends_on:
+      - node_db
+  node_db:
+    container_name: node_db
+    image: "mysql:8.0-debian"
+    ports:
+    - "4500:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=FQ0)9%lq&;x/:W}cZ;u1Hmd(;?xou-
+      - MYSQL_DATABASE=best_buy_db
+      - MYSQL_USER=stepa
+      - MYSQL_PASSWORD=d[6[%dL_sJh9/{lG%P@V(3+oaq+1kF
+
+    volumes:
+      - my_data:/var/lib/mysql
+
+volumes:
+  my_data: {}

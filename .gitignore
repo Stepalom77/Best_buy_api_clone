@@ -1,3 +1,9 @@
+# Docker
+.dockerignore
+.git
+.gitignore
+docker-compose*.yml
+
 # Logs
 logs
 *.log
