@@ -11,6 +11,10 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      category_id: {
+        allowNull:false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

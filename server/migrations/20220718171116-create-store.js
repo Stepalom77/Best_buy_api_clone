@@ -17,7 +17,7 @@ module.exports = {
       schedule: {
         type: Sequelize.TEXT
       },
-      telefone_number: {
+      telephone_number: {
         type: Sequelize.INTEGER
       },
       email: {

@@ -23,6 +23,10 @@ module.exports = {
       unhelpful_votes: {
         type: Sequelize.INTEGER
       },
+      store_id: {
+        allowNull:false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

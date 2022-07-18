@@ -26,6 +26,14 @@ module.exports = {
       time_if_purchase: {
         type: Sequelize.DATE
       },
+      user_id: {
+        allowNull:false,
+        type: Sequelize.INTEGER
+      },
+      product_id: {
+        allowNull:false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
