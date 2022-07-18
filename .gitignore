@@ -1,5 +1,4 @@
 # Docker
-.dockerignore
 .git
 .gitignore
 docker-compose.yaml
