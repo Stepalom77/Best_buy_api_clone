@@ -17,11 +17,26 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   store.init({
-    name: DataTypes.STRING,
-    address: DataTypes.STRING,
-    schedule: DataTypes.TEXT,
-    telephone_number: DataTypes.INTEGER,
-    email: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    schedule: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    telephone_number: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
   }, {
     sequelize,
     modelName: 'store',

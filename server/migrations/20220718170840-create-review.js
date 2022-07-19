@@ -13,7 +13,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       rating: {
-        allowNull: false,
         type: Sequelize.INTEGER
       },
       description: {

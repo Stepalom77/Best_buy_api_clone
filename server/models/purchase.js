@@ -3,6 +3,7 @@ const {
   Model
 } = require('sequelize');
 const product = require('./product');
+const user = require('./user');
 module.exports = (sequelize, DataTypes) => {
   class purchase extends Model {
     static associate(models) {
@@ -18,9 +19,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   purchase.init({
-    time: DataTypes.DATE,
-    amount: DataTypes.STRING,
-    user_id: DataTypes.INTEGER,
+    time: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    amount: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'purchase',
