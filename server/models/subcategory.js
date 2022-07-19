@@ -18,12 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   subcategory.init({
     name: DataTypes.STRING,
-    category_id: { 
-      type:DataTypes.INTEGER,
-      references: {
-        model: category,
-        key: 'id'
-      }}
+    category_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'subcategory',

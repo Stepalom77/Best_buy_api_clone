@@ -28,12 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     specifications: DataTypes.TEXT,
     shipping: DataTypes.TEXT,
     stock: DataTypes.INTEGER,
-    subcategory_id: { 
-      type:DataTypes.INTEGER,
-      references: {
-        model: subcategory,
-        key: 'id'
-      }}
+    subcategory_id: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'product',

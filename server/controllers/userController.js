@@ -105,6 +105,9 @@ const createUserWithReviewStore = async (req, res) => {
         }]}); 
     } catch(err) {
       console.error(err);
+      if  (err.username === 'SequelizeUniqueConstraintError' || err.email === 'SequelizeUniqueConstraintError') {
+        return res.status(400).json({ message: 'The user already exists'});
+      }
       return res.status(400).json({error: err})
     }
   

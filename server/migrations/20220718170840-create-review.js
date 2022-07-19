@@ -9,12 +9,15 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       rating: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       description: {
+        allowNull: false,
         type: Sequelize.TEXT
       },
       helpful_votes: {
@@ -24,6 +27,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       time_of_purchase: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       user_id: {

@@ -17,12 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     helpful_votes: DataTypes.INTEGER,
     unhelpful_votes: DataTypes.INTEGER,
-    store_id: { 
-      type:DataTypes.INTEGER,
-      references: {
-        model: store,
-        key: 'id'
-      }}
+    store_id: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'review_store',

@@ -9,9 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       time: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       amount: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       user_id: {

@@ -24,18 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     helpful_votes: DataTypes.INTEGER,
     unhelpful_votes: DataTypes.INTEGER,
     time_of_purchase: DataTypes.DATE,
-    user_id: { 
-      type:DataTypes.INTEGER,
-      references: {
-        model: user,
-        key: 'id'
-      }},
-      product_id: { 
-        type:DataTypes.INTEGER,
-        references: {
-          model: product,
-          key: 'id'
-        }}
+    user_id: DataTypes.INTEGER,
+    product_id: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'review',
