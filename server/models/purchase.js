@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
   purchase.init({
     time: DataTypes.DATE,
     amount: DataTypes.STRING,
-    product_id: { 
+    user_id: { 
       type:DataTypes.INTEGER,
       references: {
-        model: product,
+        model: user,
         key: 'id'
       }}
   }, {

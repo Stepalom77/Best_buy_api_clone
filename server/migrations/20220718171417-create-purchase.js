@@ -14,7 +14,7 @@ module.exports = {
       amount: {
         type: Sequelize.STRING
       },
-      product_id: {
+      user_id: {
         allowNull:false,
         type: Sequelize.INTEGER
       },
