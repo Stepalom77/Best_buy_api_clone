@@ -114,7 +114,7 @@ const deleteDepartment = async (req, res) => {
     console.error(err);
   }
   if (!deletedDepartment) {
-    return res.status(404).json({message: "The department ypu are trying to delete doesn't exist."})
+    return res.status(404).json({message: "The department you are trying to delete doesn't exist."})
   }
   return res.status(204).json({message: "The department has been deleted."})
 }

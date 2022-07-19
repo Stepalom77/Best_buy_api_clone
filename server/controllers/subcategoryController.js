@@ -122,7 +122,7 @@ const deleteSubcategory = async (req, res) => {
     console.error(err);
   }
   if (!deletedSubcategory) {
-    return res.status(404).json({message: "The subcategory ypu are trying to delete doesn't exist."})
+    return res.status(404).json({message: "The subcategory you are trying to delete doesn't exist."})
   }
   return res.status(204).json({message: "The subcategory has been deleted."})
 }

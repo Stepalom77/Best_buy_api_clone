@@ -114,7 +114,7 @@ const deleteReview = async (req, res) => {
     console.error(err);
   }
   if (!deletedReview) {
-    return res.status(404).json({message: "The review ypu are trying to delete doesn't exist."})
+    return res.status(404).json({message: "The review you are trying to delete doesn't exist."})
   }
   return res.status(204).json({message: "The review has been deleted."})
 }

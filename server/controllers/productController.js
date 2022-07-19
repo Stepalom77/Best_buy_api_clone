@@ -158,7 +158,7 @@ const deleteProduct = async (req, res) => {
     console.error(err);
   }
   if (!deletedProduct) {
-    return res.status(404).json({message: "The product ypu are trying to delete doesn't exist."})
+    return res.status(404).json({message: "The product you are trying to delete doesn't exist."})
   }
   return res.status(204).json({message: "The product has been deleted."})
 }

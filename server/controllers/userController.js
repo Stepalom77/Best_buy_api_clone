@@ -163,7 +163,7 @@ const deleteUser = async (req, res) => {
     console.error(err);
   }
   if (!deletedUser) {
-    return res.status(404).json({message: "The user ypu are trying to delete doesn't exist."})
+    return res.status(404).json({message: "The user you are trying to delete doesn't exist."})
   }
   return res.status(204).json({message: "The user has been deleted."})
 }
