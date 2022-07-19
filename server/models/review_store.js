@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'store_id',
         as: 'store'
       });
+      review_store.belongsTo(models.user, {
+        foreignKey: 'user_id',
+        as: 'user'
+      });
     }
   }
   review_store.init({
@@ -18,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     helpful_votes: DataTypes.INTEGER,
     unhelpful_votes: DataTypes.INTEGER,
     store_id: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'review_store',

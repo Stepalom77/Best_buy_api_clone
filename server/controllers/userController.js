@@ -57,6 +57,9 @@ const createUser = async (req, res) => {
     createdUser = await user.create(req.body) 
   } catch(err) {
     console.error(err);
+    if  (err.username === 'SequelizeUniqueConstraintError' || err.email === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ message: 'The user already exists'});
+    }
     return res.status(400).json({error: err})
   }
 
@@ -73,6 +76,9 @@ const createUserWithReview = async (req, res) => {
       }]}); 
   } catch(err) {
     console.error(err);
+    if  (err.username === 'SequelizeUniqueConstraintError' || err.email === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ message: 'The user already exists'});
+    }
     return res.status(400).json({error: err})
   }
 
@@ -89,6 +95,9 @@ const createUserWithPurchase = async (req, res) => {
       }]}); 
   } catch(err) {
     console.error(err);
+    if  (err.username === 'SequelizeUniqueConstraintError' || err.email === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ message: 'The user already exists'});
+    }
     return res.status(400).json({error: err})
   }
 
@@ -137,7 +146,6 @@ const updateUser = async (req, res) => {
             first_name: first_name,
             last_name: last_name,
             payment_method: payment_method,
-            stock: stock,
             telephone_number: telephone_number
       },
         {where: {

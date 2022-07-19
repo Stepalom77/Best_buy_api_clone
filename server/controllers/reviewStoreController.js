@@ -59,7 +59,7 @@ const createReviewStore = async (req, res) => {
 const updateReviewStore = async (req, res) => {
     let reviewStoreId = req.params.id;
     let {
-        title, rating, description, helpful_votes, unhelpful_votes, store_id
+        title, rating, description, helpful_votes, unhelpful_votes, store_id, user_id
     } = req.body;
     try {
       let reviewStoreToUpdate = await review_store.findByPk(reviewStoreId, {
@@ -73,7 +73,8 @@ const updateReviewStore = async (req, res) => {
             description: description,
             helpful_votes: helpful_votes,
             unhelpful_votes: unhelpful_votes,
-            store_id: store_id
+            store_id: store_id,
+            user_id: user_id
       },
         {where: {
           id: reviewStoreId

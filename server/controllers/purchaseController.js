@@ -65,7 +65,7 @@ const createPurchase = async (req, res) => {
 const updatePurchase = async (req, res) => {
     let purchaseId = req.params.id;
     let {
-        time, amount, product_id
+        time, amount, user_id
     } = req.body;
     try {
       let purchaseToUpdate = await purchase.findByPk(purchaseId, {
@@ -79,7 +79,7 @@ const updatePurchase = async (req, res) => {
         purchaseToUpdate = await purchase.update({
             time: time,
             amount: amount,
-            product_id: product_id
+            user_id: user_id
       },
         {where: {
           id: purchaseId
