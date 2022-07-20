@@ -17,6 +17,7 @@ const storeRoutes = require('./server/routes/storeRoutes');
 const subcategoryRoutes = require('./server/routes/subcategoryRoutes');
 const userRoutes = require('./server/routes/userRoutes');
 const loginGithubRoutes = require('./server/routes/loginGithubRoutes');
+const authenticationGithubRoutes = require('./server/routes/authenticationGithubRoutes');
 
 //Middlewares 
 app.use(express.urlencoded({ extended: true }));
@@ -35,6 +36,7 @@ app.use('/api/v1', storeRoutes);
 app.use('/api/v1', subcategoryRoutes);
 app.use('/api/v1', userRoutes);
 app.use('/api/v1', loginGithubRoutes);
+app.use('/api/v1', authenticationGithubRoutes);
 
 app.get('/', (req, res) => {
     res.send('Server up & running ✅');
