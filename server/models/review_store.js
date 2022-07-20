@@ -3,6 +3,7 @@ const {
   Model
 } = require('sequelize');
 const user = require('./user');
+const store = require('./store');
 module.exports = (sequelize, DataTypes) => {
   class review_store extends Model {
     static associate(models) {
@@ -30,11 +31,19 @@ module.exports = (sequelize, DataTypes) => {
     unhelpful_votes: DataTypes.INTEGER,
     store_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: store,
+        key: 'id'
+      }
     },
     user_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: user,
+        key: 'id'
+      }
     }
   }, {
     sequelize,

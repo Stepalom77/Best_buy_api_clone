@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const subcategory = require('./subcategory');
 module.exports = (sequelize, DataTypes) => {
   class product extends Model {
     static associate(models) {
@@ -48,7 +49,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     subcategory_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: subcategory,
+        key: 'id'
+      }
     }
   }, {
     sequelize,

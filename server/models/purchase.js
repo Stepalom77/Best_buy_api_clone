@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const product = require('./product');
 const user = require('./user');
 module.exports = (sequelize, DataTypes) => {
   class purchase extends Model {
@@ -29,7 +28,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: user,
+        key: 'id'
+      }
     }
   }, {
     sequelize,

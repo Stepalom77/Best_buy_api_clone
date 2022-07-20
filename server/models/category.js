@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const department = require('./department');
 module.exports = (sequelize, DataTypes) => {
   class category extends Model {
     static associate(models) {
@@ -23,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     department_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: department,
+        key: 'id'
+      }
   }}, {
     sequelize,
     modelName: 'category',
