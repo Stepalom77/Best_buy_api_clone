@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const cookieSession = require('cookie-session');
 
 const app = express();
 const PORT = process.env.PORT || 2000;
@@ -24,6 +25,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
+app.use(
+  cookieSession({
+    secret: process.env.GITHUB_COOKIE_SECRET
+  })
+);
 
 //Routes
 app.use('/api/v1', categoryRoutes);
