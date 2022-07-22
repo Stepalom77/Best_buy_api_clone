@@ -4,6 +4,8 @@ WORKDIR /best_buy_api
 
 RUN npm install i npm@latest -g
 
+RUN npm install pm2 -g
+
 COPY package*.json ./
 
 RUN npm install 
@@ -14,4 +16,4 @@ COPY . .
 
 EXPOSE 2000
 
-CMD ["node", "server.js"]
+CMD ["pm2-runtime", "server.js"]
