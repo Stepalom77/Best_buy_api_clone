@@ -1,3 +1,4 @@
+const argon2 = require('argon2');
 const { user, review, review_store, purchase} = require('../models');
 
 const getUsers = async (req, res) => {
