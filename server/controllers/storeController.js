@@ -117,13 +117,13 @@ const updateStore = async (req, res) => {
           id: storeId
         }
       })
+	return res.status(200).json(storeToUpdate);
     } catch(err) {
       console.error(err);
       if(!storeToUpdate) {
         return res.status(404).json({message: "The store you want to update doesn't exist."})
       }
     }
-      return res.status(200).json(storeToUpdate);
     }; 
 
 const deleteStore = async (req, res) => {

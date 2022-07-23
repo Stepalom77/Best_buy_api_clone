@@ -197,13 +197,13 @@ const updateUser = async (req, res) => {
           id: userId
         }
       })
+	return res.status(200).json(userToUpdate);
     } catch(err) {
       console.error(err);
       if(!userToUpdate) {
         return res.status(404).json({message: "The user you want to update doesn't exist."})
       }
     }
-      return res.status(200).json(userToUpdate);
     }; 
 
 const deleteUser = async (req, res) => {

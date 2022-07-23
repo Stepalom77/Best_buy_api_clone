@@ -100,13 +100,13 @@ const updateCategory = async (req, res) => {
           id: categoryId
         }
       })
+	return res.status(200).json(categoryToUpdate);
     } catch(err) {
       console.error(err);
       if(!categoryToUpdate) {
         return res.status(404).json({message: "The category you want to update doesn't exist."})
       }
     }
-      return res.status(200).json(categoryToUpdate);
     }; 
 
 const deleteCategory = async (req, res) => {
