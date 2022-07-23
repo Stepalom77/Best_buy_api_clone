@@ -52,9 +52,20 @@ const getUser = async (req, res,) => {
 
 
 const createUser = async (req, res) => {
+  let {password, email} = req.body;
+   let hash = null;
+   try {
+     hash = await argon2.hash(password);
+   } catch (err) {
+     console.log(`There was an error with encription the password of the user ${req.body.email}`)
+     console.error(err);
+   }
   let createdUser = null;
   try {
-    createdUser = await user.create(req.body) 
+    createdUser = await user.create({
+      ...req.body,
+      password:hash
+  })
   } catch(err) {
     console.error(err);
     if  (err.username === 'SequelizeUniqueConstraintError' || err.email === 'SequelizeUniqueConstraintError') {
@@ -67,9 +78,20 @@ const createUser = async (req, res) => {
 };
 
 const createUserWithReview = async (req, res) => {
+ let {password, email} = req.body;
+  let hash = null;
+  try {
+     hash = await argon2.hash(password);
+  } catch (err) {
+    console.log(`There was an error with encription the password of the user ${req.body.email}`)
+    console.error(err);
+  }
   let createdUserWithReview = null;
   try {
-    createdUserWithReview = await user.create(req.body, {
+    createdUserWithReview = await user.create({
+      ...req.body,
+      password:hash
+  }, {
       include: [{
         model: review,
         as: 'review'
@@ -86,9 +108,20 @@ const createUserWithReview = async (req, res) => {
 };
 
 const createUserWithPurchase = async (req, res) => {
+ let {password, email} = req.body;
+  let hash = null;
+  try {
+     hash = await argon2.hash(password);
+  } catch (err) {
+    console.log(`There was an error with encription the password of the user ${req.body.email}`)
+    console.error(err);
+  }
   let createdUserWithPurchase = null;
   try {
-    createdUserWithPurchase = await user.create(req.body, {
+    createdUserWithPurchase = await user.create({
+      ...req.body,
+      password:hash
+  }, {
       include: [{
         model: purchase,
         as: 'purchase'
@@ -105,9 +138,20 @@ const createUserWithPurchase = async (req, res) => {
 };
 
 const createUserWithReviewStore = async (req, res) => {
+ let {password, email} = req.body;
+  let hash = null;
+  try {
+     hash = await argon2.hash(password);
+  } catch (err) {
+    console.log(`There was an error with encription the password of the user ${req.body.email}`)
+    console.error(err);
+  }
     let createdUserWithReviewStore = null;
     try {
-      createdUserWithReviewStore = await user.create(req.body, {
+      createdUserWithReviewStore = await user.create({
+      ...req.body,
+      password:hash
+  }, {
         include: [{
           model: review_store,
           as: 'review_store'
