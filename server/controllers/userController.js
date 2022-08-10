@@ -1,3 +1,4 @@
+const argon2 = require('argon2');
 const { user, review, review_store, purchase} = require('../models');
 
 const getUsers = async (req, res) => {
@@ -52,9 +53,20 @@ const getUser = async (req, res,) => {
 
 
 const createUser = async (req, res) => {
+  let {password, email} = req.body;
+   let hash = null;
+   try {
+     hash = await argon2.hash(password);
+   } catch (err) {
+     console.log(`There was an error with encription the password of the user ${req.body.email}`)
+     console.error(err);
+   }
   let createdUser = null;
   try {
-    createdUser = await user.create(req.body) 
+    createdUser = await user.create({
+      ...req.body,
+      password:hash
+  })
   } catch(err) {
     console.error(err);
     if  (err.username === 'SequelizeUniqueConstraintError' || err.email === 'SequelizeUniqueConstraintError') {
@@ -67,9 +79,20 @@ const createUser = async (req, res) => {
 };
 
 const createUserWithReview = async (req, res) => {
+ let {password, email} = req.body;
+  let hash = null;
+  try {
+     hash = await argon2.hash(password);
+  } catch (err) {
+    console.log(`There was an error with encription the password of the user ${req.body.email}`)
+    console.error(err);
+  }
   let createdUserWithReview = null;
   try {
-    createdUserWithReview = await user.create(req.body, {
+    createdUserWithReview = await user.create({
+      ...req.body,
+      password:hash
+  }, {
       include: [{
         model: review,
         as: 'review'
@@ -86,9 +109,20 @@ const createUserWithReview = async (req, res) => {
 };
 
 const createUserWithPurchase = async (req, res) => {
+ let {password, email} = req.body;
+  let hash = null;
+  try {
+     hash = await argon2.hash(password);
+  } catch (err) {
+    console.log(`There was an error with encription the password of the user ${req.body.email}`)
+    console.error(err);
+  }
   let createdUserWithPurchase = null;
   try {
-    createdUserWithPurchase = await user.create(req.body, {
+    createdUserWithPurchase = await user.create({
+      ...req.body,
+      password:hash
+  }, {
       include: [{
         model: purchase,
         as: 'purchase'
@@ -105,9 +139,20 @@ const createUserWithPurchase = async (req, res) => {
 };
 
 const createUserWithReviewStore = async (req, res) => {
+ let {password, email} = req.body;
+  let hash = null;
+  try {
+     hash = await argon2.hash(password);
+  } catch (err) {
+    console.log(`There was an error with encription the password of the user ${req.body.email}`)
+    console.error(err);
+  }
     let createdUserWithReviewStore = null;
     try {
-      createdUserWithReviewStore = await user.create(req.body, {
+      createdUserWithReviewStore = await user.create({
+      ...req.body,
+      password:hash
+  }, {
         include: [{
           model: review_store,
           as: 'review_store'
@@ -127,9 +172,8 @@ const updateUser = async (req, res) => {
     let userId = req.params.id;
     let {
         username, password, email, first_name, last_name, payment_method, telephone_number} = req.body;
-        let userToUpdate =  null;
     try {
-      userToUpdate = await user.findByPk(userId, {
+      let userToUpdate = await user.findByPk(userId, {
         include: [{
           model: review,
           as: 'review'
@@ -153,14 +197,13 @@ const updateUser = async (req, res) => {
           id: userId
         }
       })
-      
+	return res.status(200).json(userToUpdate);
     } catch(err) {
       console.error(err);
       if(!userToUpdate) {
         return res.status(404).json({message: "The user you want to update doesn't exist."})
       }
     }
-    return res.status(200).json(userToUpdate);
     }; 
 
 const deleteUser = async (req, res) => {
@@ -174,11 +217,10 @@ const deleteUser = async (req, res) => {
     });
   } catch(err) {
     console.error(err);
-    if (!deletedUser) {
-      return res.status(404).json({message: "The user you are trying to delete doesn't exist."})
-    }
   }
-  
+  if (!deletedUser) {
+    return res.status(404).json({message: "The user you are trying to delete doesn't exist."})
+  }
   return res.status(204).json({message: "The user has been deleted."})
 }
 

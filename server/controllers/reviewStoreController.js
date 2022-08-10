@@ -81,13 +81,13 @@ const updateReviewStore = async (req, res) => {
           id: reviewStoreId
         }
       })
+	return res.status(200).json(reviewStoreToUpdate);
     } catch(err) {
       console.error(err);
       if(!reviewStoreToUpdate) {
         return res.status(404).json({message: "The review you want to update doesn't exist."})
       }
     }
-      return res.status(200).json(reviewStoreToUpdate);
     }; 
 
 const deleteReviewStore = async (req, res) => {

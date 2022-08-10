@@ -86,13 +86,13 @@ const updatePurchase = async (req, res) => {
           id: purchaseId
         }
       })
+	return res.status(200).json(purchaseToUpdate);
     } catch(err) {
       console.error(err);
       if(!purchaseToUpdate) {
         return res.status(404).json({message: "The purchase you want to update doesn't exist."})
       }
     }
-      return res.status(200).json(purchaseToUpdate);
     }; 
 
 const deletePurchase = async (req, res) => {

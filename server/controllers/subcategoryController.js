@@ -101,13 +101,13 @@ const updateSubcategory = async (req, res) => {
           id: subcategoryId
         }
       })
+	return res.status(200).json(subcategoryToUpdate);
     } catch(err) {
       console.error(err);
       if(!subcategoryToUpdate) {
         return res.status(404).json({message: "The subcategory you want to update doesn't exist."})
       }
     }
-      return res.status(200).json(subcategoryToUpdate);
     }; 
 
 const deleteSubcategory = async (req, res) => {

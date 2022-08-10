@@ -137,13 +137,13 @@ const updateProduct = async (req, res) => {
           id: productId
         }
       })
+	return res.status(200).json(productToUpdate);
     } catch(err) {
       console.error(err);
       if(!productToUpdate) {
         return res.status(404).json({message: "The product you want to update doesn't exist."})
       }
     }
-      return res.status(200).json(productToUpdate);
     }; 
 
 const deleteProduct = async (req, res) => {
