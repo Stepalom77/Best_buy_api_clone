@@ -127,8 +127,9 @@ const updateUser = async (req, res) => {
     let userId = req.params.id;
     let {
         username, password, email, first_name, last_name, payment_method, telephone_number} = req.body;
+        let userToUpdate =  null;
     try {
-      let userToUpdate = await user.findByPk(userId, {
+      userToUpdate = await user.findByPk(userId, {
         include: [{
           model: review,
           as: 'review'
@@ -152,13 +153,14 @@ const updateUser = async (req, res) => {
           id: userId
         }
       })
+      
     } catch(err) {
       console.error(err);
       if(!userToUpdate) {
         return res.status(404).json({message: "The user you want to update doesn't exist."})
       }
     }
-      return res.status(200).json(userToUpdate);
+    return res.status(200).json(userToUpdate);
     }; 
 
 const deleteUser = async (req, res) => {
@@ -172,10 +174,11 @@ const deleteUser = async (req, res) => {
     });
   } catch(err) {
     console.error(err);
+    if (!deletedUser) {
+      return res.status(404).json({message: "The user you are trying to delete doesn't exist."})
+    }
   }
-  if (!deletedUser) {
-    return res.status(404).json({message: "The user you are trying to delete doesn't exist."})
-  }
+  
   return res.status(204).json({message: "The user has been deleted."})
 }
 

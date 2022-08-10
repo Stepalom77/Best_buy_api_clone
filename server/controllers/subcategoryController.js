@@ -83,8 +83,9 @@ const createSubcategoryWithProduct = async (req, res) => {
 const updateSubcategory = async (req, res) => {
     let subcategoryId = req.params.id;
     let {name, category_id} = req.body;
+    let subcategoryToUpdate = null;
     try {
-      let subcategoryToUpdate = await subcategory.findByPk(subcategoryId, {
+      subcategoryToUpdate = await subcategory.findByPk(subcategoryId, {
         include: [{
           model: category,
           as: 'category'
@@ -120,10 +121,11 @@ const deleteSubcategory = async (req, res) => {
     });
   } catch(err) {
     console.error(err);
+    if (!deletedSubcategory) {
+      return res.status(404).json({message: "The subcategory you are trying to delete doesn't exist."})
+    }
   }
-  if (!deletedSubcategory) {
-    return res.status(404).json({message: "The subcategory you are trying to delete doesn't exist."})
-  }
+  
   return res.status(204).json({message: "The subcategory has been deleted."})
 }
 

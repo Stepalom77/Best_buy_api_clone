@@ -93,8 +93,9 @@ const updateStore = async (req, res) => {
     let storeId = req.params.id;
     let {
       name, address, schedule, telephone_number, email} = req.body;
+      let storeToUpdate =  null;
     try {
-      let storeToUpdate = await store.findByPk(storeId, {
+      storeToUpdate = await store.findByPk(storeId, {
         include: [{
           model: review,
           as: 'review'
@@ -137,9 +138,9 @@ const deleteStore = async (req, res) => {
     });
   } catch(err) {
     console.error(err);
-  }
-  if (!deletedStore) {
-    return res.status(404).json({message: "The store you are trying to delete doesn't exist."})
+    if (!deletedStore) {
+      return res.status(404).json({message: "The store you are trying to delete doesn't exist."})
+    }
   }
   return res.status(204).json({message: "The store has been deleted."})
 }

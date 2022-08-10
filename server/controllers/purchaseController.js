@@ -67,8 +67,9 @@ const updatePurchase = async (req, res) => {
     let {
         time, amount, user_id
     } = req.body;
+    let purchaseToUpdate = null;
     try {
-      let purchaseToUpdate = await purchase.findByPk(purchaseId, {
+      purchaseToUpdate = await purchase.findByPk(purchaseId, {
         include: [{
           model: user,
           as: 'user'
@@ -105,10 +106,11 @@ const deletePurchase = async (req, res) => {
     });
   } catch(err) {
     console.error(err);
+    if (!deletedPurchase) {
+      return res.status(404).json({message: "The purchase you are trying to delete doesn't exist."})
+    }
   }
-  if (!deletedPurchase) {
-    return res.status(404).json({message: "The purchase you are trying to delete doesn't exist."})
-  }
+  
   return res.status(204).json({message: "The purchase has been deleted."})
 }
 

@@ -69,6 +69,7 @@ const updateReview = async (req, res) => {
     let {
         title, rating, description, helpful_votes, unhelpful_votes, time_of_purchase, user_id, product_id
     } = req.body;
+    let reviewToUpdate = null;
     try {
       let reviewToUpdate = await review.findByPk(reviewId, {
         include: [{
@@ -112,10 +113,11 @@ const deleteReview = async (req, res) => {
     });
   } catch(err) {
     console.error(err);
+    if (!deletedReview) {
+      return res.status(404).json({message: "The review you are trying to delete doesn't exist."})
+    }
   }
-  if (!deletedReview) {
-    return res.status(404).json({message: "The review you are trying to delete doesn't exist."})
-  }
+ 
   return res.status(204).json({message: "The review has been deleted."})
 }
 

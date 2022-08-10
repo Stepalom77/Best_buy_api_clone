@@ -110,8 +110,9 @@ const updateProduct = async (req, res) => {
     let {
         name, price, rating, overview, specifications, shipping, stock, subcategory_id
     } = req.body;
+    let productToUpdate = null;
     try {
-      let productToUpdate = await product.findByPk(productId, {
+      productToUpdate = await product.findByPk(productId, {
         include: [{
           model: review,
           as: 'review'
@@ -156,10 +157,11 @@ const deleteProduct = async (req, res) => {
     });
   } catch(err) {
     console.error(err);
+    if (!deletedProduct) {
+      return res.status(404).json({message: "The product you are trying to delete doesn't exist."})
+    }
   }
-  if (!deletedProduct) {
-    return res.status(404).json({message: "The product you are trying to delete doesn't exist."})
-  }
+  
   return res.status(204).json({message: "The product has been deleted."})
 }
 

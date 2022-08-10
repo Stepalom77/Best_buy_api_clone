@@ -76,8 +76,9 @@ const createDepartmentWithCategory = async (req, res) => {
 const updateDepartment = async (req, res) => {
     let departmentId = req.params.id;
     let {name} = req.body;
+    let departmentToUpdate =  null;
     try {
-      let departmentToUpdate = await department.findByPk(departmentId, {
+       departmentToUpdate = await department.findByPk(departmentId, {
         include: [{
           model: category,
           as: 'category'
@@ -112,10 +113,11 @@ const deleteDepartment = async (req, res) => {
     });
   } catch(err) {
     console.error(err);
+    if (!deletedDepartment) {
+      return res.status(404).json({message: "The department you are trying to delete doesn't exist."})
+    }
   }
-  if (!deletedDepartment) {
-    return res.status(404).json({message: "The department you are trying to delete doesn't exist."})
-  }
+  
   return res.status(204).json({message: "The department has been deleted."})
 }
 
