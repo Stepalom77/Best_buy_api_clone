@@ -3,20 +3,10 @@ const { product, review, subcategory, purchase} = require('../models');
 const getProducts = async (req, res) => {
   let allProducts = [];
   try {
-    allProducts = await product.findAll({
-      include: [{
-        model: review,
-        as: 'review'
-      }, {
-        model: subcategory,
-        as: 'subcategory'
-      }, {
-        model: purchase,
-        as: 'purchase'
-      }]});
+    allProducts = await product.findAll();
   } catch(err) {
     console.error(err);
-    return res.status(400).json({ error: err })
+    return res.status(400).json({message: 'There was an error'})
   }
   return res.status(200).json(allProducts)
 };
@@ -28,22 +18,14 @@ const getProduct = async (req, res,) => {
   try {
     searchedProduct = await product.findOne({
       where: { id: productId}
-    }, {
-        include: [{
-          model: review,
-          as: 'review'
-        }, {
-          model: subcategory,
-          as: 'subcategory'
-        }, {
-          model: purchase,
-          as: 'purchase'
-        }]});
+    });
   }catch(error) {
     console.error(err);
     if(!searchedProduct) {
         return res.status(404).json({message: "The product you are looking for doesn't exist."})
-    }
+    } else {
+      return res.status(400).json({message: 'There was an error'});
+  }
   }
 
   return res.status(200).json(searchedProduct);
@@ -61,7 +43,7 @@ const createProduct = async (req, res) => {
         }]}); 
   } catch(err) {
     console.error(err);
-    return res.status(400).json({error: err})
+    return res.status(400).json({message: 'There was an error'})
   }
 
   return res.status(200).json(createdProduct);
@@ -80,7 +62,7 @@ const createProductWithReview = async (req, res) => {
       }]}); 
   } catch(err) {
     console.error(err);
-    return res.status(400).json({error: err})
+    return res.status(400).json({message: 'There was an error'})
   }
 
   return res.status(200).json(createdProductWithReview);
@@ -99,7 +81,7 @@ const createProductWithPurchase = async (req, res) => {
       }]}); 
   } catch(err) {
     console.error(err);
-    return res.status(400).json({error: err})
+    return res.status(400).json({message: 'There was an error'})
   }
 
   return res.status(200).json(createdProductWithPurchase);
@@ -112,17 +94,7 @@ const updateProduct = async (req, res) => {
     } = req.body;
     let productToUpdate = null;
     try {
-      productToUpdate = await product.findByPk(productId, {
-        include: [{
-          model: review,
-          as: 'review'
-        }, {
-          model: subcategory,
-          as: 'subcategory'
-        }, {
-          model: purchase,
-          as: 'purchase'
-        }]})
+      productToUpdate = await product.findByPk(productId)
         productToUpdate = await product.update({
             name: name,
             price: price,
@@ -137,13 +109,15 @@ const updateProduct = async (req, res) => {
           id: productId
         }
       })
-	return res.status(200).json(productToUpdate);
     } catch(err) {
       console.error(err);
       if(!productToUpdate) {
         return res.status(404).json({message: "The product you want to update doesn't exist."})
-      }
+      } else {
+        return res.status(400).json({message: 'There was an error'});
     }
+    }
+    return res.status(200).json(productToUpdate);
     }; 
 
 const deleteProduct = async (req, res) => {
@@ -159,7 +133,9 @@ const deleteProduct = async (req, res) => {
     console.error(err);
     if (!deletedProduct) {
       return res.status(404).json({message: "The product you are trying to delete doesn't exist."})
-    }
+    } else {
+      return res.status(400).json({message: 'There was an error'});
+  }
   }
   
   return res.status(204).json({message: "The product has been deleted."})

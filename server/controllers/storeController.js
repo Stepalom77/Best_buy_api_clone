@@ -3,17 +3,10 @@ const { store, department, review_store} = require('../models');
 const getStores = async (req, res) => {
   let allStores = [];
   try {
-    allStores = await store.findAll({
-      include: [{
-        model: department,
-        as: 'department'
-      }, {
-        model: review_store,
-        as: 'review_store'
-      }]});
+    allStores = await store.findAll();
   } catch(err) {
     console.error(err);
-    return res.status(400).json({ error: err })
+    return res.status(400).json({message: 'There was an error'})
   }
   return res.status(200).json(allStores)
 };
@@ -25,19 +18,14 @@ const getStore = async (req, res,) => {
   try {
     searchedStore = await store.findOne({
       where: { id: storeId}
-    }, {
-      include: [{
-        model: department,
-        as: 'department'
-      }, {
-        model: review_store,
-        as: 'review_store'
-      }]});
+    });
   }catch(error) {
     console.error(err);
     if(!searchedUser) {
         return res.status(404).json({message: "The store you are looking for doesn't exist."})
-    }
+    } else {
+      return res.status(400).json({message: 'There was an error'});
+  }
   }
 
   return res.status(200).json(searchedStore);
@@ -51,7 +39,7 @@ const createStore = async (req, res) => {
     createdStore = await store.create(req.body) 
   } catch(err) {
     console.error(err);
-    return res.status(400).json({error: err})
+    return res.status(400).json({message: 'There was an error'})
   }
 
   return res.status(200).json(createdStore);
@@ -67,7 +55,7 @@ const createStoreWithDepartment = async (req, res) => {
       }]}); 
   } catch(err) {
     console.error(err);
-    return res.status(400).json({error: err})
+    return res.status(400).json({message: 'There was an error'})
   }
 
   return res.status(200).json(createdStoreWithDepartment);
@@ -83,7 +71,7 @@ const createStoreWithReviewStore = async (req, res) => {
         }]}); 
     } catch(err) {
       console.error(err);
-      return res.status(400).json({error: err})
+      return res.status(400).json({message: 'There was an error'})
     }
   
     return res.status(200).json(createdStoreWithReviewStore);
@@ -95,17 +83,7 @@ const updateStore = async (req, res) => {
       name, address, schedule, telephone_number, email} = req.body;
       let storeToUpdate =  null;
     try {
-      storeToUpdate = await store.findByPk(storeId, {
-        include: [{
-          model: review,
-          as: 'review'
-        }, {
-          model: review_store,
-          as: 'review_store'
-        }, {
-          model: purchase,
-          as: 'purchase'
-        }]})
+      storeToUpdate = await store.findByPk(storeId)
         storeToUpdate = await store.update({
           name: name,
             password: password,
@@ -118,13 +96,15 @@ const updateStore = async (req, res) => {
           id: storeId
         }
       })
-	return res.status(200).json(storeToUpdate);
     } catch(err) {
       console.error(err);
       if(!storeToUpdate) {
         return res.status(404).json({message: "The store you want to update doesn't exist."})
-      }
+      } else {
+        return res.status(400).json({message: 'There was an error'});
     }
+    }
+    return res.status(200).json(storeToUpdate);
     }; 
 
 const deleteStore = async (req, res) => {
@@ -140,7 +120,9 @@ const deleteStore = async (req, res) => {
     console.error(err);
     if (!deletedStore) {
       return res.status(404).json({message: "The store you are trying to delete doesn't exist."})
-    }
+    } else {
+      return res.status(400).json({message: 'There was an error'});
+  }
   }
   return res.status(204).json({message: "The store has been deleted."})
 }

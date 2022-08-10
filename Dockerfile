@@ -16,4 +16,4 @@ COPY . .
 
 EXPOSE 2000
 
-CMD ["pm2-runtime", "server.js"]
+CMD ["node", "server.js"]

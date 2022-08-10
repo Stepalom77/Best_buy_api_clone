@@ -4,20 +4,10 @@ const { user, review, review_store, purchase} = require('../models');
 const getUsers = async (req, res) => {
   let allUsers = [];
   try {
-    allUsers = await user.findAll({
-      include: [{
-        model: review,
-        as: 'review'
-      }, {
-        model: review_store,
-        as: 'review_store'
-      }, {
-        model: purchase,
-        as: 'purchase'
-      }]});
+    allUsers = await user.findAll();
   } catch(err) {
     console.error(err);
-    return res.status(400).json({ error: err })
+    return res.status(400).json({message: 'There was an error'})
   }
   return res.status(200).json(allUsers)
 };
@@ -29,22 +19,14 @@ const getUser = async (req, res,) => {
   try {
     searchedUser = await user.findOne({
       where: { id: userId}
-    }, {
-        include: [{
-          model: review,
-          as: 'review'
-        }, {
-          model: review_store,
-          as: 'review_store'
-        }, {
-          model: purchase,
-          as: 'purchase'
-        }]});
+    });
   }catch(error) {
     console.error(err);
     if(!searchedUser) {
         return res.status(404).json({message: "The user you are looking for doesn't exist."})
-    }
+    } else {
+      return res.status(400).json({message: 'There was an error'});
+  }
   }
 
   return res.status(200).json(searchedUser);
@@ -72,7 +54,7 @@ const createUser = async (req, res) => {
     if  (err.username === 'SequelizeUniqueConstraintError' || err.email === 'SequelizeUniqueConstraintError') {
       return res.status(400).json({ message: 'The user already exists'});
     }
-    return res.status(400).json({error: err})
+    return res.status(400).json({message: 'There was an error'})
   }
 
   return res.status(200).json(createdUser);
@@ -102,7 +84,7 @@ const createUserWithReview = async (req, res) => {
     if  (err.username === 'SequelizeUniqueConstraintError' || err.email === 'SequelizeUniqueConstraintError') {
       return res.status(400).json({ message: 'The user already exists'});
     }
-    return res.status(400).json({error: err})
+    return res.status(400).json({message: 'There was an error'})
   }
 
   return res.status(200).json(createdUserWithReview);
@@ -132,7 +114,7 @@ const createUserWithPurchase = async (req, res) => {
     if  (err.username === 'SequelizeUniqueConstraintError' || err.email === 'SequelizeUniqueConstraintError') {
       return res.status(400).json({ message: 'The user already exists'});
     }
-    return res.status(400).json({error: err})
+    return res.status(400).json({message: 'There was an error'})
   }
 
   return res.status(200).json(createdUserWithPurchase);
@@ -162,7 +144,7 @@ const createUserWithReviewStore = async (req, res) => {
       if  (err.username === 'SequelizeUniqueConstraintError' || err.email === 'SequelizeUniqueConstraintError') {
         return res.status(400).json({ message: 'The user already exists'});
       }
-      return res.status(400).json({error: err})
+      return res.status(400).json({message: 'There was an error'})
     }
   
     return res.status(200).json(createdUserWithReviewStore);
@@ -172,18 +154,9 @@ const updateUser = async (req, res) => {
     let userId = req.params.id;
     let {
         username, password, email, first_name, last_name, payment_method, telephone_number} = req.body;
+        let userToUpdate = null;
     try {
-      let userToUpdate = await user.findByPk(userId, {
-        include: [{
-          model: review,
-          as: 'review'
-        }, {
-          model: review_store,
-          as: 'review_store'
-        }, {
-          model: purchase,
-          as: 'purchase'
-        }]})
+      userToUpdate = await user.findByPk(userId)
         userToUpdate = await user.update({
             username: username,
             password: password,
@@ -197,13 +170,16 @@ const updateUser = async (req, res) => {
           id: userId
         }
       })
-	return res.status(200).json(userToUpdate);
+	
     } catch(err) {
       console.error(err);
       if(!userToUpdate) {
         return res.status(404).json({message: "The user you want to update doesn't exist."})
-      }
+      } else {
+        return res.status(400).json({message: 'There was an error'});
     }
+    }
+    return res.status(200).json(userToUpdate);
     }; 
 
 const deleteUser = async (req, res) => {
@@ -217,10 +193,13 @@ const deleteUser = async (req, res) => {
     });
   } catch(err) {
     console.error(err);
+    if (!deletedUser) {
+      return res.status(404).json({message: "The user you are trying to delete doesn't exist."})
+    } else {
+      return res.status(400).json({message: 'There was an error'});
   }
-  if (!deletedUser) {
-    return res.status(404).json({message: "The user you are trying to delete doesn't exist."})
   }
+  
   return res.status(204).json({message: "The user has been deleted."})
 }
 

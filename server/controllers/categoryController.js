@@ -3,17 +3,10 @@ const { category, department, subcategory} = require('../models');
 const getCategories = async (req, res) => {
   let allCategories = [];
   try {
-    allCategories = await category.findAll({
-      include: [{
-        model: department,
-        as: 'department'
-      }, {
-        model: subcategory,
-        as: 'subcategory'
-      }]});
+    allCategories = await category.findAll();
   } catch(err) {
     console.error(err);
-    return res.status(400).json({ error: err })
+    return res.status(400).json({message: 'There was an error'})
   }
   return res.status(200).json(allCategories)
 };
@@ -25,19 +18,14 @@ const getCategory = async (req, res,) => {
   try {
     searchedCategory = await category.findOne({
       where: { id: categoryId}
-    }, {
-        include: [{
-          model: department,
-          as: 'department'
-        }, {
-          model: subcategory,
-          as: 'subcategory'
-        }]});
+    });
   }catch(error) {
     console.error(err);
     if(!searchedCategory) {
         return res.status(404).json({message: "The category you are looking for doesn't exist."})
-    }
+    } else {
+      return res.status(400).json({message: 'There was an error'});
+  }
   }
 
   return res.status(200).json(searchedCategory);
@@ -55,7 +43,7 @@ const createCategory = async (req, res) => {
         }]}); 
   } catch(err) {
     console.error(err);
-    return res.status(400).json({error: err})
+    return res.status(400).json({message: 'There was an error'})
   }
 
   return res.status(200).json(createdCategory);
@@ -74,7 +62,7 @@ const createCategoryWithSubcategory = async (req, res) => {
         }]}); 
     } catch(err) {
       console.error(err);
-      return res.status(400).json({error: err})
+      return res.status(400).json({message: 'There was an error'})
     }
   
     return res.status(200).json(createdCategoryWithSubcategory);
@@ -85,14 +73,7 @@ const updateCategory = async (req, res) => {
     let {name, department_id} = req.body;
     let categoryToUpdate = null;
     try {
-      categoryToUpdate = await category.findByPk(categoryId, {
-        include: [{
-          model: department,
-          as: 'department'
-        }, {
-          model: subcategory,
-          as: 'subcategory'
-        }]})
+      categoryToUpdate = await category.findByPk(categoryId)
         categoryToUpdate = await category.update({
             name: name,
             department_id: department_id
@@ -101,13 +82,15 @@ const updateCategory = async (req, res) => {
           id: categoryId
         }
       })
-	return res.status(200).json(categoryToUpdate);
     } catch(err) {
       console.error(err);
       if(!categoryToUpdate) {
         return res.status(404).json({message: "The category you want to update doesn't exist."})
-      }
+      } else {
+        return res.status(400).json({message: 'There was an error'});
     }
+    }
+    return res.status(200).json(categoryToUpdate);
     }; 
 
 const deleteCategory = async (req, res) => {
@@ -123,7 +106,9 @@ const deleteCategory = async (req, res) => {
     console.error(err);
     if (!deletedCategory) {
       return res.status(404).json({message: "The category you are trying to delete doesn't exist."})
-    }
+    } else {
+      return res.status(400).json({message: 'There was an error'});
+  }
   }
   
   return res.status(204).json({message: "The category has been deleted."})

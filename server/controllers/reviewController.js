@@ -3,17 +3,10 @@ const { review, product, user} = require('../models');
 const getReviews = async (req, res) => {
   let allReviews = [];
   try {
-    allReviews = await review.findAll({
-      include: [{
-        model: product,
-        as: 'product'
-      }, {
-        model: user,
-        as: 'user'
-      }]});
+    allReviews = await review.findAll();
   } catch(err) {
     console.error(err);
-    return res.status(400).json({ error: err })
+    return res.status(400).json({message: 'There was an error'})
   }
   return res.status(200).json(allReviews)
 };
@@ -25,19 +18,14 @@ const getReview = async (req, res,) => {
   try {
     searchedReview = await review.findOne({
       where: { id: reviewId}
-    }, {
-        include: [{
-          model: product,
-          as: 'product'
-        }, {
-          model: user,
-          as: 'user'
-        }]});
+    });
   }catch(error) {
     console.error(err);
     if(!searchedReview) {
         return res.status(404).json({message: "The review you are looking for doesn't exist."})
-    }
+    } else {
+      return res.status(400).json({message: 'There was an error'});
+  }
   }
 
   return res.status(200).json(searchedReview);
@@ -58,7 +46,7 @@ const createReview = async (req, res) => {
         }]}); 
   } catch(err) {
     console.error(err);
-    return res.status(400).json({error: err})
+    return res.status(400).json({message: 'There was an error'})
   }
 
   return res.status(200).json(createdReview);
@@ -71,14 +59,7 @@ const updateReview = async (req, res) => {
     } = req.body;
     let reviewToUpdate = null;
     try {
-      let reviewToUpdate = await review.findByPk(reviewId, {
-        include: [{
-          model: product,
-          as: 'product'
-        }, {
-          model: user,
-          as: 'user'
-        }]})
+      reviewToUpdate = await review.findByPk(reviewId)
         reviewToUpdate = await review.update({
             title: title,
             rating: rating,
@@ -93,13 +74,15 @@ const updateReview = async (req, res) => {
           id: reviewId
         }
       })
-	return res.status(200).json(reviewToUpdate);
     } catch(err) {
       console.error(err);
       if(!reviewToUpdate) {
         return res.status(404).json({message: "The review you want to update doesn't exist."})
-      }
+      } else {
+        return res.status(400).json({message: 'There was an error'});
     }
+    }
+    return res.status(200).json(reviewToUpdate);
     }; 
 
 const deleteReview = async (req, res) => {
@@ -115,7 +98,9 @@ const deleteReview = async (req, res) => {
     console.error(err);
     if (!deletedReview) {
       return res.status(404).json({message: "The review you are trying to delete doesn't exist."})
-    }
+    } else {
+      return res.status(400).json({message: 'There was an error'});
+  }
   }
  
   return res.status(204).json({message: "The review has been deleted."})
