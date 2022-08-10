@@ -1,10 +1,8 @@
 require('dotenv').config()
 const express = require('express');
 const router = express.Router();
-//const cookieSession = require('cookie-session');
 const client_id = process.env.GITHUB_CLIENT_ID;
 const client_secret = process.env.GITHUB_CLIENT_SECRET;
-//const cookie_secret = process.env.GITHUB_COOKIE_SECRET;
 const authGithub = require("../controllers/authenticationGithubController");
 
 router.get("/login/github/callback", async (req, res) => {
